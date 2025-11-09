@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@pokedex-app/domain": ["domain/src/index.ts"],
+      "@pokedex-app/application": ["libs/application/src/index.ts"],
+      "@pokedex-app/adapters": ["libs/adapters/src/index.ts"],
+      "@pokedex-app/contracts": ["libs/contracts/src/index.ts"],
+      "@pokedex-app/ui": ["libs/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
