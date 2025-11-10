@@ -1,82 +1,271 @@
-# PokedexApp
+# Pokedex App - Domain-Driven Design Example
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A full-stack application built with **Angular**, **NestJS**, and **NX Monorepo** to demonstrate **Domain-Driven Design (DDD)** principles and architecture.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## 🎯 Purpose
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This project serves as a learning example and reference implementation of DDD concepts in a real-world application. It showcases:
 
-## Finish your CI setup
+- **Clean Architecture** with clear separation of concerns
+- **Domain-Driven Design** patterns and best practices
+- **SOLID principles** implementation
+- **Dependency Inversion** for flexible and testable code
+- **NX Monorepo** for scalable project structure
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/zJRNfdnzvq)
+## 🏗️ Architecture
 
+The project follows a **layered DDD architecture**:
 
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve pokedex-app
+```
+├── apps/
+│   ├── pokedex-app/          # Angular Frontend
+│   ├── pokedex-api/          # NestJS Backend API
+│   └── *-e2e/                # E2E tests
+│
+└── libs/
+    ├── domain/               # 🔵 Domain Layer
+    │   ├── entities/         #    - Pokemon entity (business logic)
+    │   ├── value-objects/    #    - PokemonType enum
+    │   └── repositories/     #    - Repository interfaces
+    │
+    ├── application/          # 🟢 Application Layer
+    │   └── use-cases/        #    - ListPokemonsUseCase
+    │                         #    - GetPokemonByIdUseCase
+    │
+    ├── adapters/             # 🟡 Adapters Layer
+    │   └── repositories/     #    - InMemoryPokemonRepository
+    │                         #    - (Future: DatabaseRepository)
+    │
+    ├── contracts/            # 🟣 Contracts Layer
+    │   └── dtos/             #    - PokemonDto
+    │                         #    - API interfaces
+    │
+    └── ui/                   # 🎨 Shared UI Components
 ```
 
-To create a production bundle:
+### Layer Responsibilities
 
-```sh
-npx nx build pokedex-app
+| Layer           | Purpose                                      | Dependencies        |
+| --------------- | -------------------------------------------- | ------------------- |
+| **Domain**      | Core business logic, entities, value objects | None (pure domain)  |
+| **Application** | Use cases, orchestration                     | Domain              |
+| **Adapters**    | Infrastructure, repositories, external APIs  | Domain, Application |
+| **Contracts**   | DTOs, shared interfaces                      | None                |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
 ```
 
-To see all available targets to run for a project, run:
+### Running the Application
 
-```sh
-npx nx show project pokedex-app
+**Start Backend (NestJS):**
+
+```bash
+nx serve pokedex-api
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+API will be available at `http://localhost:3000/api`
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+**Start Frontend (Angular):**
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
+```bash
+nx serve pokedex-app
 ```
 
-To generate a new library, use:
+App will be available at `http://localhost:4200`
 
-```sh
-npx nx g @nx/angular:lib mylib
+**Run Both Simultaneously:**
+
+```bash
+# Terminal 1
+nx serve pokedex-api
+
+# Terminal 2
+nx serve pokedex-app
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## 📚 Key DDD Concepts Demonstrated
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 1. **Entities**
 
+Domain objects with unique identity and business logic.
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```typescript
+// libs/domain/src/lib/entities/pokemon.entity.ts
+class Pokemon {
+  hasType(type: PokemonType): boolean { ... }
+  isHeavy(): boolean { ... }
+}
+```
 
-## Install Nx Console
+### 2. **Value Objects**
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+Immutable objects defined by their values.
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```typescript
+// libs/domain/src/lib/value-objects/pokemon-type.enum.ts
+enum PokemonType { FIRE, WATER, GRASS, ... }
+```
 
-## Useful links
+### 3. **Repository Pattern**
 
-Learn more:
+Interface in domain, implementation in adapters.
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```typescript
+// Domain defines the contract
+interface IPokemonRepository {
+  findAll(): Promise<Pokemon[]>;
+}
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+// Adapters provide implementation
+class InMemoryPokemonRepository implements IPokemonRepository { ... }
+```
+
+### 4. **Use Cases**
+
+Single-purpose application logic.
+
+```typescript
+// libs/application/src/lib/use-cases/list-pokemons.use-case.ts
+class ListPokemonsUseCase {
+  execute(): Promise<Pokemon[]> { ... }
+}
+```
+
+### 5. **DTOs (Data Transfer Objects)**
+
+Simple objects for transferring data between layers.
+
+```typescript
+// libs/contracts/src/lib/dtos/pokemon.dto.ts
+interface PokemonDto {
+  id: number;
+  name: string;
+  types: string[];
+}
+```
+
+## 🔄 Data Flow
+
+```
+Frontend (Angular)
+    ↓ HTTP Request
+Controller (NestJS)
+    ↓ calls
+Service
+    ↓ instantiates
+Use Case (Application Layer)
+    ↓ uses
+Repository Interface (Domain Layer)
+    ↓ implemented by
+Repository Implementation (Adapters Layer)
+    ↓ returns
+Domain Entity
+    ↓ mapped to
+DTO
+    ↓ HTTP Response
+Frontend (Angular)
+```
+
+## 🎨 API Endpoints
+
+| Method | Endpoint           | Description       |
+| ------ | ------------------ | ----------------- |
+| GET    | `/api/pokemon`     | Get all Pokemon   |
+| GET    | `/api/pokemon/:id` | Get Pokemon by ID |
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+nx test domain
+nx test application
+
+# Run E2E tests
+nx e2e pokedex-app-e2e
+nx e2e pokedex-api-e2e
+```
+
+## 🔧 Tech Stack
+
+- **Frontend:** Angular 20, RxJS, TypeScript
+- **Backend:** NestJS, TypeScript
+- **Monorepo:** NX
+- **Architecture:** Domain-Driven Design (DDD)
+- **Testing:** Jest, Playwright
+
+## 📖 Learning Resources
+
+### DDD Concepts Explained
+
+- **Entity vs Value Object:** Entities have identity, value objects don't
+- **Repository Pattern:** Abstracts data access, implementations can be swapped
+- **Use Cases:** Represent specific business operations
+- **Dependency Inversion:** Depend on abstractions (interfaces), not concrete implementations
+
+### Benefits of This Architecture
+
+✅ **Testability:** Easy to unit test with mock repositories  
+✅ **Maintainability:** Clear separation of concerns  
+✅ **Flexibility:** Swap implementations without changing business logic  
+✅ **Scalability:** Add new features without touching existing code  
+✅ **Team Collaboration:** Multiple developers can work on different layers
+
+## 🔮 Future Enhancements
+
+- [ ] Add database repository (PostgreSQL/MongoDB)
+- [ ] Implement authentication and authorization
+- [ ] Add more entities (Trainer, Battle)
+- [ ] Create Pokemon (POST endpoint)
+- [ ] Search and filter functionality
+- [ ] Unit and integration tests
+- [ ] Docker containerization
+- [ ] CI/CD pipeline
+
+## 📝 Project Commands
+
+```bash
+# Generate new library
+nx generate @nx/js:library <name> --directory=libs/<name>
+
+# Generate new component
+nx generate @nx/angular:component <name> --project=pokedex-app
+
+# Build for production
+nx build pokedex-api
+nx build pokedex-app
+
+# Visualize project graph
+nx graph
+
+# Run linting
+nx lint pokedex-api
+nx lint pokedex-app
+```
+
+## 🤝 Contributing
+
+This is a learning project. Feel free to:
+
+- Experiment with different implementations
+- Add new features following DDD principles
+- Refactor and improve the architecture
+- Add tests and documentation
+
+## 📄 License
+
+MIT
+
+---
+
+**Built with ❤️ to learn and demonstrate Domain-Driven Design principles.**
