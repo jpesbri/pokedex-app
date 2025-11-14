@@ -1,0 +1,19 @@
+{
+  "name": "trainer-application",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/trainer/application/src",
+  "projectType": "library",
+  "tags": ["type:application", "scope:trainer"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/trainer/application/jest.config.ts"
+      }
+    }
+  }
+}
