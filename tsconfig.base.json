@@ -15,11 +15,18 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pokedex-app/domain": ["libs/domain/src/index.ts"],
-      "@pokedex-app/application": ["libs/application/src/index.ts"],
-      "@pokedex-app/adapters": ["libs/adapters/src/index.ts"],
-      "@pokedex-app/contracts": ["libs/contracts/src/index.ts"],
-      "@pokedex-app/ui": ["libs/ui/src/index.ts"]
+      "@pokedex-app/ui": ["libs/ui/src/index.ts"],
+      "@pokedex-app/shared": ["libs/shared/src/index.ts"],
+      "@pokedex-app/pokemon-domain": ["libs/pokemon/domain/src/index.ts"],
+      "@pokedex-app/pokemon-application": [
+        "libs/pokemon/application/src/index.ts"
+      ],
+      "@pokedex-app/pokemon-adapters": ["libs/pokemon/adapters/src/index.ts"],
+      "@pokedex-app/pokemon-contracts": ["libs/pokemon/contracts/src/index.ts"],
+      "@pokedex-app/trainer-domain": ["libs/trainer/domain/src/index.ts"],
+      "@pokedex-app/trainer-application": [
+        "libs/trainer/application/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

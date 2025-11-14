@@ -1,0 +1,19 @@
+{
+  "name": "pokemon-domain",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/pokemon/domain/src",
+  "projectType": "library",
+  "tags": ["type:domain", "scope:pokemon"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/pokemon/domain/jest.config.ts"
+      }
+    }
+  }
+}

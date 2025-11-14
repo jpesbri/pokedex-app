@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IPokemonRepository } from '@pokedex-app/domain';
+import { IPokemonRepository } from '@pokedex-app/pokemon-domain';
 import {
   ListPokemonsUseCase,
   GetPokemonByIdUseCase,
-} from '@pokedex-app/application';
-import { PokemonDto } from '@pokedex-app/contracts';
+} from '@pokedex-app/pokemon-application';
+import { PokemonDto } from '@pokedex-app/pokemon-contracts';
 
 @Injectable()
 export class PokemonService {
