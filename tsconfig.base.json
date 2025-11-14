@@ -26,7 +26,8 @@
       "@pokedex-app/trainer-domain": ["libs/trainer/domain/src/index.ts"],
       "@pokedex-app/trainer-application": [
         "libs/trainer/application/src/index.ts"
-      ]
+      ],
+      "@pokedex-app/trainer-adapters": ["libs/trainer/adapters/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
